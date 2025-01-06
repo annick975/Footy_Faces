@@ -57,7 +57,6 @@ export default function FootballGuessingGame() {
   const [clubGuess, setClubGuess] = useState("");
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState("");
-  const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [numberOfPlayers, setNumberOfPlayers] = useState(3);
 
   const BackgroundPattern = () => (
@@ -115,7 +114,6 @@ export default function FootballGuessingGame() {
   };
 
   const nextPlayer = () => {
-    setShowCorrectAnswer(false);
     if (currentPlayerIndex === players.length - 1) {
       setGameState("over");
     } else {
@@ -154,7 +152,6 @@ export default function FootballGuessingGame() {
 
     setScore((prevScore) => prevScore + pointsGained);
     setFeedback(feedbackMessage);
-    setShowCorrectAnswer(!correctGuess);
 
     setTimeout(
       () => {
