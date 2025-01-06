@@ -60,6 +60,47 @@ export default function FootballGuessingGame() {
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [numberOfPlayers, setNumberOfPlayers] = useState(3);
 
+  const BackgroundPattern = () => (
+    <div className="fixed inset-0 z-0">
+      <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+        <pattern
+          id="grass-pattern"
+          x="0"
+          y="0"
+          width="50"
+          height="50"
+          patternUnits="userSpaceOnUse"
+        >
+          <path d="M0 0h50v50H0z" fill="#2F7A34" />
+          <circle cx="25" cy="25" r="2" fill="#266B2D" />
+          <path d="M0 25h50" stroke="#266B2D" strokeWidth="0.5" />
+          <path d="M25 0v50" stroke="#266B2D" strokeWidth="0.5" />
+        </pattern>
+        <pattern
+          id="field-lines"
+          x="0"
+          y="0"
+          width="200"
+          height="200"
+          patternUnits="userSpaceOnUse"
+        >
+          <path d="M0 100h200" stroke="rgba(255,255,255,0.2)" strokeWidth="2" />
+          <path d="M100 0v200" stroke="rgba(255,255,255,0.2)" strokeWidth="2" />
+          <circle
+            cx="100"
+            cy="100"
+            r="30"
+            stroke="rgba(255,255,255,0.2)"
+            strokeWidth="2"
+            fill="none"
+          />
+        </pattern>
+        <rect width="100%" height="100%" fill="url(#grass-pattern)" />
+        <rect width="100%" height="100%" fill="url(#field-lines)" />
+      </svg>
+    </div>
+  );
+
   const shufflePlayers = () => {
     return [...initialPlayers]
       .sort(() => Math.random() - 0.5)
@@ -125,32 +166,35 @@ export default function FootballGuessingGame() {
 
   if (gameState === "setup") {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-green-600 to-green-800 py-10 px-4">
-        <div className="max-w-md mx-auto bg-white/90 backdrop-blur-sm shadow-xl rounded-xl overflow-hidden border-4 border-white">
-          <div className="p-8">
-            <h2 className="text-3xl font-bold text-center mb-6 text-green-800">
-              Football Legends Quiz
-            </h2>
-            <p className="text-center mb-6 text-gray-700 font-medium">
-              Choose your match length:
-            </p>
-            <select
-              className="w-full p-3 mb-6 border-2 border-green-200 rounded-lg bg-white/50 text-green-800 font-medium focus:ring-2 focus:ring-green-500 focus:border-green-500"
-              value={numberOfPlayers}
-              onChange={(e) => setNumberOfPlayers(parseInt(e.target.value))}
-            >
-              {[1, 2, 3, 4, 5].map((num) => (
-                <option key={num} value={num}>
-                  {num} player{num !== 1 ? "s" : ""}
-                </option>
-              ))}
-            </select>
-            <button
-              onClick={startGame}
-              className="w-full bg-green-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-green-700 transform hover:scale-105 transition duration-300 shadow-lg"
-            >
-              Kick Off! ⚽
-            </button>
+      <div className="min-h-screen relative">
+        <BackgroundPattern />
+        <div className="relative z-10 py-10 px-4">
+          <div className="max-w-md mx-auto bg-white/95 backdrop-blur-sm shadow-xl rounded-xl overflow-hidden border-2 border-white">
+            <div className="p-8">
+              <h2 className="text-3xl font-bold text-center mb-6 text-green-800">
+                Football Legends Quiz
+              </h2>
+              <p className="text-center mb-6 text-gray-700 font-medium">
+                Choose your match length:
+              </p>
+              <select
+                className="w-full p-3 mb-6 border-2 border-green-200 rounded-lg bg-white/50 text-green-800 font-medium focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                value={numberOfPlayers}
+                onChange={(e) => setNumberOfPlayers(parseInt(e.target.value))}
+              >
+                {[1, 2, 3, 4, 5].map((num) => (
+                  <option key={num} value={num}>
+                    {num} player{num !== 1 ? "s" : ""}
+                  </option>
+                ))}
+              </select>
+              <button
+                onClick={startGame}
+                className="w-full bg-green-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-green-700 transform hover:scale-105 transition duration-300 shadow-lg"
+              >
+                Kick Off! ⚽
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -159,26 +203,29 @@ export default function FootballGuessingGame() {
 
   if (gameState === "over") {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-green-600 to-green-800 py-10 px-4">
-        <div className="max-w-md mx-auto bg-white/90 backdrop-blur-sm shadow-xl rounded-xl overflow-hidden border-4 border-white">
-          <div className="p-8">
-            <h2 className="text-3xl font-bold text-center mb-6 text-green-800">
-              Full Time! 🏆
-            </h2>
-            <p className="text-center font-bold text-2xl mb-4 text-green-700">
-              Final Score: {score}/{numberOfPlayers * 2}
-            </p>
-            <p className="text-center mb-6 text-gray-600">
-              {score === numberOfPlayers * 2
-                ? "Perfect game! You're the champion! 🌟"
-                : "Good effort! Ready for another match?"}
-            </p>
-            <button
-              onClick={() => setGameState("setup")}
-              className="w-full bg-green-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-green-700 transform hover:scale-105 transition duration-300 shadow-lg"
-            >
-              Play Again ⚽
-            </button>
+      <div className="min-h-screen relative">
+        <BackgroundPattern />
+        <div className="relative z-10 py-10 px-4">
+          <div className="max-w-md mx-auto bg-white/95 backdrop-blur-sm shadow-xl rounded-xl overflow-hidden border-2 border-white">
+            <div className="p-8">
+              <h2 className="text-3xl font-bold text-center mb-6 text-green-800">
+                Full Time! 🏆
+              </h2>
+              <p className="text-center font-bold text-2xl mb-4 text-green-700">
+                Final Score: {score}/{numberOfPlayers * 2}
+              </p>
+              <p className="text-center mb-6 text-gray-600">
+                {score === numberOfPlayers * 2
+                  ? "Perfect game! You're the champion! 🌟"
+                  : "Good effort! Ready for another match?"}
+              </p>
+              <button
+                onClick={() => setGameState("setup")}
+                className="w-full bg-green-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-green-700 transform hover:scale-105 transition duration-300 shadow-lg"
+              >
+                Play Again ⚽
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -188,62 +235,67 @@ export default function FootballGuessingGame() {
   const currentPlayer = players[currentPlayerIndex];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-600 to-green-800 py-10 px-4">
-      <div className="max-w-md mx-auto bg-white/90 backdrop-blur-sm shadow-xl rounded-xl overflow-hidden border-4 border-white">
-        <div className="p-8">
-          <div className="flex justify-between items-center mb-6">
-            <div className="bg-green-100 px-4 py-2 rounded-lg">
-              <p className="font-bold text-green-800">
-                Score: {score}/{numberOfPlayers * 2}
-              </p>
-            </div>
-            <div className="bg-green-100 px-4 py-2 rounded-lg">
-              <p className="text-green-800">
-                {currentPlayerIndex + 1}/{numberOfPlayers}
-              </p>
-            </div>
-          </div>
-
-          {currentPlayer && (
-            <div className="relative mb-8">
-              <div className="w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-white shadow-xl">
-                <img
-                  src={currentPlayer.imageUrl}
-                  alt="Football player"
-                  className="w-full h-full object-cover"
-                />
+    <div className="min-h-screen relative">
+      <BackgroundPattern />
+      <div className="relative z-10 py-10 px-4">
+        <div className="max-w-md mx-auto bg-white/95 backdrop-blur-sm shadow-xl rounded-xl overflow-hidden border-2 border-white">
+          <div className="p-8">
+            <div className="flex justify-between items-center mb-6">
+              <div className="bg-green-100/80 backdrop-blur-sm px-4 py-2 rounded-lg">
+                <p className="font-bold text-green-800">
+                  Score: {score}/{numberOfPlayers * 2}
+                </p>
+              </div>
+              <div className="bg-green-100/80 backdrop-blur-sm px-4 py-2 rounded-lg">
+                <p className="text-green-800">
+                  {currentPlayerIndex + 1}/{numberOfPlayers}
+                </p>
               </div>
             </div>
-          )}
 
-          <div className="space-y-4">
-            <input
-              type="text"
-              placeholder="Player Name"
-              value={nameGuess}
-              onChange={(e) => setNameGuess(e.target.value)}
-              className="w-full p-3 border-2 border-green-200 rounded-lg bg-white/50 placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-green-500"
-            />
-            <input
-              type="text"
-              placeholder="Club"
-              value={clubGuess}
-              onChange={(e) => setClubGuess(e.target.value)}
-              className="w-full p-3 border-2 border-green-200 rounded-lg bg-white/50 placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-green-500"
-            />
-            <button
-              onClick={checkGuess}
-              className="w-full bg-green-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-green-700 transform hover:scale-105 transition duration-300 shadow-lg"
-            >
-              Take the Shot! ⚽
-            </button>
-          </div>
+            {currentPlayer && (
+              <div className="relative mb-8">
+                <div className="w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-white shadow-xl">
+                  <img
+                    src={currentPlayer.imageUrl}
+                    alt="Football player"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            )}
 
-          {feedback && (
-            <div className="mt-6 p-4 bg-green-100 rounded-lg">
-              <p className="text-center font-bold text-green-800">{feedback}</p>
+            <div className="space-y-4">
+              <input
+                type="text"
+                placeholder="Player Name"
+                value={nameGuess}
+                onChange={(e) => setNameGuess(e.target.value)}
+                className="w-full p-3 border-2 border-green-200 rounded-lg bg-white/80 placeholder-gray-500 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              />
+              <input
+                type="text"
+                placeholder="Club"
+                value={clubGuess}
+                onChange={(e) => setClubGuess(e.target.value)}
+                className="w-full p-3 border-2 border-green-200 rounded-lg bg-white/80 placeholder-gray-500 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              />
+              <button
+                onClick={checkGuess}
+                className="w-full bg-green-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-green-700 transform hover:scale-105 transition duration-300 shadow-lg"
+              >
+                Take the Shot! ⚽
+              </button>
             </div>
-          )}
+
+            {feedback && (
+              <div className="mt-6 p-4 bg-green-100/80 backdrop-blur-sm rounded-lg">
+                <p className="text-center font-bold text-green-800">
+                  {feedback}
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
