@@ -5,18 +5,7 @@ import cr7 from "../assets/Players/cr7.jpeg";
 import mbappe from "../assets/Players/Mbappe.jpeg";
 import haaland from "../assets/Players/haalnd.jpeg";
 import debruyne from "../assets/Players/debruyne.jpeg";
-
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 interface Player {
   id: number;
@@ -109,17 +98,16 @@ export default function FootballGuessingGame() {
       clubGuess.toLowerCase() === currentPlayer.club.toLowerCase()
     ) {
       correctGuess = true;
-      feedbackMessage =
-        "Congratulations! You guessed both the player and the club correctly!";
+      feedbackMessage = "GOOOAAAL! Perfect guess! 🎯⚽";
       pointsGained = 2;
     } else if (nameGuess.toLowerCase() === currentPlayer.name.toLowerCase()) {
-      feedbackMessage = `Correct player name, but the club is ${currentPlayer.club}.`;
+      feedbackMessage = `Hit the post! Right player, but they play for ${currentPlayer.club} ⚽`;
       pointsGained = 1;
     } else if (clubGuess.toLowerCase() === currentPlayer.club.toLowerCase()) {
-      feedbackMessage = `Correct club, but the player name is ${currentPlayer.name}.`;
+      feedbackMessage = `Close! Right club, but that's ${currentPlayer.name} ⚽`;
       pointsGained = 1;
     } else {
-      feedbackMessage = `Sorry, that's incorrect. The player is ${currentPlayer.name} from ${currentPlayer.club}.`;
+      feedbackMessage = `Off target! That's ${currentPlayer.name} from ${currentPlayer.club} ❌`;
       pointsGained = 0;
     }
 
@@ -137,107 +125,127 @@ export default function FootballGuessingGame() {
 
   if (gameState === "setup") {
     return (
-      <Card className="w-[350px] mx-auto mt-10">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">
-            Football Player Guessing Game
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-center">How many players do you want to guess?</p>
-          <Select
-            value={numberOfPlayers.toString()}
-            onValueChange={(value) => setNumberOfPlayers(parseInt(value))}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select number of players" />
-            </SelectTrigger>
-            <SelectContent>
+      <div className="min-h-screen bg-gradient-to-b from-green-600 to-green-800 py-10 px-4">
+        <div className="max-w-md mx-auto bg-white/90 backdrop-blur-sm shadow-xl rounded-xl overflow-hidden border-4 border-white">
+          <div className="p-8">
+            <h2 className="text-3xl font-bold text-center mb-6 text-green-800">
+              Football Legends Quiz
+            </h2>
+            <p className="text-center mb-6 text-gray-700 font-medium">
+              Choose your match length:
+            </p>
+            <select
+              className="w-full p-3 mb-6 border-2 border-green-200 rounded-lg bg-white/50 text-green-800 font-medium focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              value={numberOfPlayers}
+              onChange={(e) => setNumberOfPlayers(parseInt(e.target.value))}
+            >
               {[1, 2, 3, 4, 5].map((num) => (
-                <SelectItem key={num} value={num.toString()}>
+                <option key={num} value={num}>
                   {num} player{num !== 1 ? "s" : ""}
-                </SelectItem>
+                </option>
               ))}
-            </SelectContent>
-          </Select>
-          <Button onClick={startGame} className="w-full">
-            Start Game
-          </Button>
-        </CardContent>
-      </Card>
+            </select>
+            <button
+              onClick={startGame}
+              className="w-full bg-green-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-green-700 transform hover:scale-105 transition duration-300 shadow-lg"
+            >
+              Kick Off! ⚽
+            </button>
+          </div>
+        </div>
+      </div>
     );
   }
 
   if (gameState === "over") {
     return (
-      <Card className="w-[350px] mx-auto mt-10">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">
-            Game Over!
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-center font-semibold">
-            Your final score: {score}/{numberOfPlayers * 2}
-          </p>
-          <Button onClick={() => setGameState("setup")} className="w-full">
-            Play Again
-          </Button>
-        </CardContent>
-      </Card>
+      <div className="min-h-screen bg-gradient-to-b from-green-600 to-green-800 py-10 px-4">
+        <div className="max-w-md mx-auto bg-white/90 backdrop-blur-sm shadow-xl rounded-xl overflow-hidden border-4 border-white">
+          <div className="p-8">
+            <h2 className="text-3xl font-bold text-center mb-6 text-green-800">
+              Full Time! 🏆
+            </h2>
+            <p className="text-center font-bold text-2xl mb-4 text-green-700">
+              Final Score: {score}/{numberOfPlayers * 2}
+            </p>
+            <p className="text-center mb-6 text-gray-600">
+              {score === numberOfPlayers * 2
+                ? "Perfect game! You're the champion! 🌟"
+                : "Good effort! Ready for another match?"}
+            </p>
+            <button
+              onClick={() => setGameState("setup")}
+              className="w-full bg-green-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-green-700 transform hover:scale-105 transition duration-300 shadow-lg"
+            >
+              Play Again ⚽
+            </button>
+          </div>
+        </div>
+      </div>
     );
   }
 
   const currentPlayer = players[currentPlayerIndex];
 
   return (
-    <Card className="w-[350px] mx-auto mt-10">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold text-center">
-          Guess the Player
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="text-center">
+    <div className="min-h-screen bg-gradient-to-b from-green-600 to-green-800 py-10 px-4">
+      <div className="max-w-md mx-auto bg-white/90 backdrop-blur-sm shadow-xl rounded-xl overflow-hidden border-4 border-white">
+        <div className="p-8">
+          <div className="flex justify-between items-center mb-6">
+            <div className="bg-green-100 px-4 py-2 rounded-lg">
+              <p className="font-bold text-green-800">
+                Score: {score}/{numberOfPlayers * 2}
+              </p>
+            </div>
+            <div className="bg-green-100 px-4 py-2 rounded-lg">
+              <p className="text-green-800">
+                {currentPlayerIndex + 1}/{numberOfPlayers}
+              </p>
+            </div>
+          </div>
+
           {currentPlayer && (
-            <img
-              src={currentPlayer.imageUrl}
-              alt="Football player"
-              width={200}
-              height={300}
-              className="mx-auto mb-4"
-            />
+            <div className="relative mb-8">
+              <div className="w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-white shadow-xl">
+                <img
+                  src={currentPlayer.imageUrl}
+                  alt="Football player"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
           )}
-          <p className="font-semibold">
-            Score: {score}/{numberOfPlayers * 2}
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Player {currentPlayerIndex + 1} of {numberOfPlayers}
-          </p>
+
+          <div className="space-y-4">
+            <input
+              type="text"
+              placeholder="Player Name"
+              value={nameGuess}
+              onChange={(e) => setNameGuess(e.target.value)}
+              className="w-full p-3 border-2 border-green-200 rounded-lg bg-white/50 placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+            />
+            <input
+              type="text"
+              placeholder="Club"
+              value={clubGuess}
+              onChange={(e) => setClubGuess(e.target.value)}
+              className="w-full p-3 border-2 border-green-200 rounded-lg bg-white/50 placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+            />
+            <button
+              onClick={checkGuess}
+              className="w-full bg-green-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-green-700 transform hover:scale-105 transition duration-300 shadow-lg"
+            >
+              Take the Shot! ⚽
+            </button>
+          </div>
+
+          {feedback && (
+            <div className="mt-6 p-4 bg-green-100 rounded-lg">
+              <p className="text-center font-bold text-green-800">{feedback}</p>
+            </div>
+          )}
         </div>
-        <Input
-          type="text"
-          placeholder="Player Name"
-          value={nameGuess}
-          onChange={(e) => setNameGuess(e.target.value)}
-        />
-        <Input
-          type="text"
-          placeholder="Club"
-          value={clubGuess}
-          onChange={(e) => setClubGuess(e.target.value)}
-        />
-        <Button onClick={checkGuess} className="w-full">
-          Submit Guess
-        </Button>
-        {feedback && <p className="text-center font-medium">{feedback}</p>}
-        {showCorrectAnswer && (
-          <p className="text-center font-medium">
-            The correct answer is {currentPlayer.name} from {currentPlayer.club}
-            .
-          </p>
-        )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
